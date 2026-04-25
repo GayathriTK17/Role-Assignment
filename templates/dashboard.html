@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — RoleSync{% endblock %}
+{% block content %}
+
+<section style="padding:2.5rem 0 5rem;">
+  <div class="container">
+    <div style="margin-bottom:2rem;">
+      <p class="section-label">Overview</p>
+      <h2>Assignment Dashboard</h2>
+      <p class="mt-1">Track employee assessments and role predictions across your organisation.</p>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-tile"><div class="sv">{{ stats.total_employees }}</div><div class="sl">Employees Assessed</div></div>
+      <div class="stat-tile"><div class="sv">{{ stats.roles_assigned }}</div><div class="sl">Roles Assigned</div></div>
+      <div class="stat-tile"><div class="sv">{{ stats.avg_confidence }}%</div><div class="sl">Avg Confidence</div></div>
+      <div class="stat-tile"><div class="sv">10</div><div class="sl">Roles in Model</div></div>
+    </div>
+
+    <div class="tbl-wrap">
+      <div class="tbl-head">
+        <h4 style="font-size:.95rem;">Recent Assessments</h4>
+        <a href="/employee/new" class="btn btn-sage btn-sm">New Assessment</a>
+      </div>
+      {% if stats.recent_assignments %}
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th><th>Department</th><th>Recommended Role</th><th>Confidence</th><th>Experience</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for emp in stats.recent_assignments %}
+          <tr>
+            <td><strong>{{ emp.name }}</strong></td>
+            <td>{{ emp.department or '—' }}</td>
+            <td><span class="badge badge-sage">{{ emp.recommended_role }}</span></td>
+            <td>{{ emp.confidence }}%</td>
+            <td>{{ emp.experience_years }} yrs</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div style="padding:3rem;text-align:center;">
+        <p style="color:var(--text-light);font-size:.88rem;">No assessments yet. <a href="/employee/new">Run the first one.</a></p>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="alert alert-info mt-3" style="margin-top:1.25rem;">
+      <strong>Note:</strong> Connect MongoDB to persist data across sessions. See <code>.env</code> for setup.
+    </div>
+  </div>
+</section>
+
+{% endblock %}

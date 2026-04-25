@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block title %}Result for {{ profile.name }} — RoleSync{% endblock %}
+{% block content %}
+
+<section style="padding:2.5rem 0 5rem;">
+  <div class="container-sm">
+
+    <div class="result-banner">
+      <p class="for-name">Assessment result for <strong>{{ profile.name }}</strong></p>
+      <p class="role-name">{{ profile.recommended_role }}</p>
+      <div class="conf-bubble">
+        <span class="val">{{ profile.confidence }}%</span>
+        <span class="lbl">Match</span>
+      </div>
+    </div>
+
+    <div class="card mb-3" style="margin-bottom:1.25rem;">
+      <h4 style="margin-bottom:1rem;">Role Recommendations</h4>
+      <div class="rec-list">
+        {% for rec in profile.all_recommendations %}
+        <div class="rec-row {{ 'best' if loop.first }}">
+          <div style="flex:1;">
+            <div class="flex-between">
+              <span class="rname">{{ rec.role }}</span>
+              <span class="rconf">{{ rec.confidence }}%</span>
+            </div>
+            <div class="bar-wrap">
+              <div class="bar-fill" style="width:0%" data-w="{{ rec.confidence }}"></div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="card mb-3" style="margin-bottom:1.25rem;">
+      <h4 style="margin-bottom:1rem;">Profile Summary</h4>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+        <div>
+          <p class="section-label">Experience</p>
+          <p style="color:var(--text-dark);font-weight:500;">{{ profile.experience_years }} years</p>
+        </div>
+        <div>
+          <p class="section-label">Performance Score</p>
+          <p style="color:var(--text-dark);font-weight:500;">{{ profile.performance_score }} / 10</p>
+        </div>
+      </div>
+      <hr />
+      <p class="section-label">Skills Identified</p>
+      <div class="tags">
+        {% for skill in profile.skills %}
+        <span class="tag">{{ skill }}</span>
+        {% else %}
+        <span style="font-size:.84rem;color:var(--text-light);">No skills selected</span>
+        {% endfor %}
+      </div>
+      {% if profile.resume_skills %}
+      <div class="mt-2">
+        <p class="section-label">Extracted from Resume (NLP)</p>
+        <div class="tags">
+          {% for skill in profile.resume_skills %}
+          <span class="tag resume-tag">{{ skill }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+    <div style="display:flex;gap:.75rem;flex-wrap:wrap;">
+      <a href="/employee/new" class="btn btn-dark">New Assessment</a>
+      <button class="btn btn-outline" id="feedback-btn">Submit Feedback</button>
+      <a href="/dashboard" class="btn btn-outline">Dashboard</a>
+    </div>
+
+  </div>
+</section>
+
+<div class="modal-overlay" id="feedback-modal">
+  <div class="modal">
+    <div class="flex-between mb-3" style="margin-bottom:1rem;">
+      <h3 style="font-size:1.1rem;">HR Feedback</h3>
+      <button class="modal-close" id="modal-close">&times;</button>
+    </div>
+    <p style="font-size:.86rem;margin-bottom:1.25rem;">Share the actual role assigned to help RoleSync improve.</p>
+    <form id="feedback-form">
+      <input type="hidden" id="fb-name" value="{{ profile.name }}" />
+      <input type="hidden" id="fb-rec" value="{{ profile.recommended_role }}" />
+      <div class="form-group">
+        <label for="fb-actual">Actual Role Assigned</label>
+        <input type="text" id="fb-actual" class="form-control" placeholder="e.g. Data Engineer" required />
+      </div>
+      <div class="form-group">
+        <label for="fb-sat">HR Satisfaction (1–5)</label>
+        <select id="fb-sat" class="form-control">
+          <option value="5">5 — Excellent match</option>
+          <option value="4">4 — Good match</option>
+          <option value="3" selected>3 — Acceptable</option>
+          <option value="2">2 — Below expectations</option>
+          <option value="1">1 — Poor match</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-dark btn-full">Submit Feedback</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

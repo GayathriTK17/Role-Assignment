@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block title %}New Assessment — RoleSync{% endblock %}
+{% block content %}
+
+<section class="form-section">
+  <div class="container-sm">
+    <div style="margin-bottom:2rem;">
+      <p class="section-label">Employee Assessment</p>
+      <h2>Build the employee profile</h2>
+      <p class="mt-1">The more complete the profile, the more accurate the prediction.</p>
+    </div>
+
+    <form id="employee-form" action="/employee/new" method="POST" enctype="multipart/form-data">
+
+      <div class="card mb-3" style="margin-bottom:1.25rem;">
+        <h4 style="margin-bottom:1.25rem;">Basic Information</h4>
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="name" class="form-control" placeholder="e.g. Priya Ramesh" required />
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="department">Department</label>
+            <select id="department" name="department" class="form-control">
+              <option value="">Select department</option>
+              <option>Engineering</option><option>Product</option>
+              <option>Data & Analytics</option><option>Design</option>
+              <option>Marketing</option><option>Finance</option>
+              <option>Human Resources</option><option>Operations</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="current_role">Current Role</label>
+            <input type="text" id="current_role" name="current_role" class="form-control" placeholder="e.g. Junior Developer" />
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="education_level">Education Level</label>
+            <select id="education_level" name="education_level" class="form-control">
+              <option value="High School">High School</option>
+              <option value="Bachelor's" selected>Bachelor's</option>
+              <option value="Master's">Master's</option>
+              <option value="PhD">PhD</option>
+              <option value="Diploma">Diploma / Certification</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="preferred_role">Preferred Role <span class="opt">(optional)</span></label>
+            <input type="text" id="preferred_role" name="preferred_role" class="form-control" placeholder="e.g. Data Scientist" />
+          </div>
+        </div>
+      </div>
+
+      <div class="card mb-3" style="margin-bottom:1.25rem;">
+        <h4 style="margin-bottom:1.25rem;">Experience & Performance</h4>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="experience_years">Years of Experience</label>
+            <input type="number" id="experience_years" name="experience_years" class="form-control" min="0" max="40" value="3" />
+          </div>
+          <div class="form-group">
+            <label for="performance_score">Performance Score &nbsp;<strong id="performance_score-val">7</strong> / 10</label>
+            <input type="range" id="performance_score" name="performance_score" min="1" max="10" step="0.5" value="7" />
+          </div>
+        </div>
+      </div>
+
+      <div class="card mb-3" style="margin-bottom:1.25rem;">
+        <h4 style="margin-bottom:1rem;">Skills</h4>
+        <p style="font-size:.84rem;margin-bottom:1rem;">Select everything that applies across domains.</p>
+
+        <p class="section-label">Programming & Engineering</p>
+        <div class="skills-grid">
+          {% for s in ["python","javascript","java","react","sql","html","css","git","docker","aws","kubernetes","linux"] %}
+          <div><input type="checkbox" class="skill-checkbox" id="sk-{{s}}" name="skills" value="{{s}}" /><label class="skill-label" for="sk-{{s}}">{{s}}</label></div>
+          {% endfor %}
+        </div>
+
+        <p class="section-label mt-3" style="margin-top:1.1rem;">Data & Analytics</p>
+        <div class="skills-grid">
+          {% for s in ["machine learning","data analysis","statistics","tableau","power bi","excel","tensorflow","pandas"] %}
+          <div><input type="checkbox" class="skill-checkbox" id="sk-{{loop.index+20}}" name="skills" value="{{s}}" /><label class="skill-label" for="sk-{{loop.index+20}}">{{s}}</label></div>
+          {% endfor %}
+        </div>
+
+        <p class="section-label mt-3" style="margin-top:1.1rem;">Management & Soft Skills</p>
+        <div class="skills-grid">
+          {% for s in ["leadership","project management","agile","scrum","stakeholder","presentation","communication","negotiation"] %}
+          <div><input type="checkbox" class="skill-checkbox" id="sk-{{loop.index+40}}" name="skills" value="{{s}}" /><label class="skill-label" for="sk-{{loop.index+40}}">{{s}}</label></div>
+          {% endfor %}
+        </div>
+
+        <p class="section-label mt-3" style="margin-top:1.1rem;">Design & Marketing</p>
+        <div class="skills-grid">
+          {% for s in ["figma","ux","ui","design thinking","seo","social media","content","branding"] %}
+          <div><input type="checkbox" class="skill-checkbox" id="sk-{{loop.index+60}}" name="skills" value="{{s}}" /><label class="skill-label" for="sk-{{loop.index+60}}">{{s}}</label></div>
+          {% endfor %}
+        </div>
+
+        <p class="section-label mt-3" style="margin-top:1.1rem;">Finance</p>
+        <div class="skills-grid">
+          {% for s in ["accounting","financial analysis","forecasting","auditing","sap"] %}
+          <div><input type="checkbox" class="skill-checkbox" id="sk-{{loop.index+80}}" name="skills" value="{{s}}" /><label class="skill-label" for="sk-{{loop.index+80}}">{{s}}</label></div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="card mb-3" style="margin-bottom:1.75rem;">
+        <h4 style="margin-bottom:.4rem;">Resume Upload <span class="opt" style="font-family:'Jost',sans-serif;font-weight:400;font-size:.82rem;color:var(--text-light);">(optional)</span></h4>
+        <p style="font-size:.84rem;margin-bottom:.9rem;">Upload a .txt resume for NLP keyword extraction.</p>
+        <div class="upload-zone">
+          <input type="file" id="resume" name="resume" accept=".txt,.text" />
+          <p><strong>Click to browse</strong> or drag and drop &nbsp;&mdash;&nbsp; .txt files only</p>
+          <div id="file-chosen" class="file-chosen"></div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-dark btn-full" style="font-size:.95rem;padding:13px;">
+        Analyse & Predict Role
+      </button>
+    </form>
+  </div>
+</section>
+
+{% endblock %}

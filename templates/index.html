@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}RoleSync — Intelligent Role Assignment{% endblock %}
+{% block content %}
+
+<section class="hero">
+  <div class="pill">AI-Powered HR Intelligence</div>
+  <h1>Place the right people<br>in the <em>right roles</em></h1>
+  <p>RoleSync uses machine learning to match employees to roles that truly fit — reducing bias and accelerating every decision.</p>
+  <div class="hero-btns">
+    <a href="/employee/new" class="btn btn-dark">Start Assessment</a>
+    <a href="/dashboard" class="btn btn-outline">View Dashboard</a>
+  </div>
+</section>
+
+<section style="padding:0 0 5rem;">
+  <div class="container">
+    <p class="section-label text-center">How it works</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="fc-bar sage"></div>
+        <h4>Data Collection</h4>
+        <p>Structured inputs — skills, experience, performance scores, preferences, and an optional resume for deeper insight.</p>
+      </div>
+      <div class="feature-card">
+        <div class="fc-bar rose"></div>
+        <h4>NLP Resume Parsing</h4>
+        <p>Tokenization and keyword extraction surface hidden competencies from uploaded resumes, enriching the profile automatically.</p>
+      </div>
+      <div class="feature-card">
+        <div class="fc-bar blue"></div>
+        <h4>Role Prediction</h4>
+        <p>The model evaluates the complete profile and returns ranked role recommendations with confidence scores.</p>
+      </div>
+      <div class="feature-card">
+        <div class="fc-bar tan"></div>
+        <h4>Feedback Loop</h4>
+        <p>HR validates placements and real-world outcomes continuously refine future recommendations.</p>
+      </div>
+    </div>
+
+    <hr />
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:center;">
+      <div>
+        <p class="section-label">Why RoleSync</p>
+        <h2>Fairer, faster, smarter placements</h2>
+        <p class="mt-2">Traditional HR decisions carry unconscious bias and can take weeks. RoleSync cuts that time dramatically while producing data-driven recommendations every team member can trust.</p>
+        <a href="/employee/new" class="btn btn-sage mt-3" style="margin-top:1.5rem;display:inline-flex;">Run an Assessment</a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:.85rem;">
+        <div class="card" style="padding:1.1rem 1.4rem;">
+          <div class="flex-between">
+            <span style="font-size:.88rem;font-weight:500;">Bias Reduction</span>
+            <span class="badge badge-sage">Data-driven</span>
+          </div>
+        </div>
+        <div class="card" style="padding:1.1rem 1.4rem;">
+          <div class="flex-between">
+            <span style="font-size:.88rem;font-weight:500;">Decision Speed</span>
+            <span class="badge badge-rose">Minutes, not weeks</span>
+          </div>
+        </div>
+        <div class="card" style="padding:1.1rem 1.4rem;">
+          <div class="flex-between">
+            <span style="font-size:.88rem;font-weight:500;">Continuous Learning</span>
+            <span class="badge badge-blue">Self-improving</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
